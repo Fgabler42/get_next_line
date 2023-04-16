@@ -1,0 +1,6 @@
+hello meine heisst Gerlinde
+mein
+name
+ist
+fritz
+\n
