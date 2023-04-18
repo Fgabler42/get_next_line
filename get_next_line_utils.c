@@ -6,13 +6,13 @@
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:57:12 by fgabler           #+#    #+#             */
-/*   Updated: 2023/04/16 18:21:41 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/04/18 19:56:00 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_isitn(const char *str, int c)
+int	isitn(char *str, int c)
 {
 	int	i;
 
@@ -20,9 +20,7 @@ int	ft_isitn(const char *str, int c)
 	while (str[i])
 	{
 		if (str[i] == (char) c)
-		{
 			return (0);
-		}
 		i++;
 	}
 	if (str[i] == (char) c)
@@ -57,7 +55,7 @@ char	*ft_strdup(const char *str1)
 	return (tmp);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	unsigned int	i;
 	unsigned int	j;
@@ -72,7 +70,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	new[ft_strlen(s1) + ft_strlen(s2) + 1] = '\0';
 	if (s1[i] == '\0' && s2[j] == '\0')
-		return (free(new), ft_strdup(""));
+		return (free (new), ft_strdup(""));
 	while (s1[i])
 	{
 		new[i] = s1[i];
@@ -80,5 +78,5 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	while (s2[j])
 		new[i++] = s2[j++];
-	return (new);
+	return (free (s1), new);
 }

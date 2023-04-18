@@ -1,5 +1,4 @@
-hello meine heisst Gerlinde
-mein
+hallo stephan wie geht es dir \n
 name
 ist
 fritz

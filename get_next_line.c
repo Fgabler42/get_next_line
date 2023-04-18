@@ -6,7 +6,7 @@
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 15:15:02 by fgabler           #+#    #+#             */
-/*   Updated: 2023/04/16 18:26:13 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/04/18 20:03:33 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,42 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-char	*get_next_line(int fd)
+static void	cleanstr(char *str)
 {
-	char static	*buffer;
-	size_t		i;
-	size_t		count;
+	int	i;
 
 	i = 0;
-	buffer = 
-	buffer[BUFFER_SIZE + 1] = '\0';
-	count = 1;
-	while ()
+	if (!str)
+		return ;
+	while (str[i] != '\n')
+		i++;
+	if (str[i] == '\n')
 	{
-		count = read(fd, buffer, BUFFER_SIZE);
-		printf("%s", buffer);
-		while (i < BUFFER_SIZE)
-		{
-			buffer[i] = tmp[i];
-			i++;
-		}
+		while (str[i])
+			str[i++] = '\0';
 	}
-
-	printf("%s", tmp);
-	return (tmp);
 }
 
+char	*get_next_line(int fd)
+{
+	char		buffer[BUFFER_SIZE + 1];
+	char		*tmp;
+	int			count;
+
+	buffer[BUFFER_SIZE] = '\0';
+	tmp = (char *)malloc(1);
+	if (!tmp)
+		free(tmp);
+	while (isitn(tmp, '\n'))
+	{
+		count = read(fd, buffer, BUFFER_SIZE);
+		if (count == -1)
+			free(buffer);
+		tmp = ft_strjoin(tmp, buffer);
+	}
+	cleanstr(tmp);
+	return (tmp);
+}
 
 int	main(void)
 {
@@ -49,6 +60,8 @@ int	main(void)
 
 	fd = open("text.txt", O_RDONLY);
 	str = get_next_line(fd);
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
 	close(fd);
 	return (0);
 }
