@@ -6,7 +6,7 @@
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 15:15:02 by fgabler           #+#    #+#             */
-/*   Updated: 2023/04/18 20:03:33 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/04/19 13:09:14 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	main(void)
 	char	*str;
 
 	fd = open("text.txt", O_RDONLY);
-	str = get_next_line(fd);
 	printf("%s", get_next_line(fd));
 	printf("%s", get_next_line(fd));
 	close(fd);

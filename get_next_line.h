@@ -6,7 +6,7 @@
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 12:09:12 by fgabler           #+#    #+#             */
-/*   Updated: 2023/04/18 20:04:13 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/04/19 13:57:34 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 11000
+#  define BUFFER_SIZE 5
 # endif
 
 # include <unistd.h>

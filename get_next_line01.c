@@ -6,7 +6,7 @@
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 16:37:52 by fgabler           #+#    #+#             */
-/*   Updated: 2023/04/18 20:24:51 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/04/19 14:45:36 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,9 @@ static char	*get_text(char *text, int fd)
 	int		protect;
 	char	buffer[BUFFER_SIZE + 1];
 
-	protect = 0;
+	protect = 1;
 	buffer[BUFFER_SIZE] = '\0';
-	text = (char *)malloc(1);
-	if (!text)
-		return (NULL);
-	while (isitn(text, '\n'))
+	while (isitn(buffer, '\n') && protect > 0)
 	{
 		protect = read(fd, buffer, BUFFER_SIZE);
 		if (protect == -1)
@@ -36,42 +33,37 @@ static char	*get_text(char *text, int fd)
 	return (text);
 }
 
-static void	copy_claer_text(char *text, char *ret)
+static char	*copy_clear_text(char *text, char *ret)
 {
 	int		i;
 	int		j;
 	size_t	count;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	count = ft_strlen(text);
-	ret = (char *)malloc(count + 1);
-	if (!ret)
-		return ;
+	ret = malloc(sizeof(char) * (count + 1));
+	if (ret == NULL)
+		return (NULL);
 	ret[count] = '\0';
-	if (!ret)
-	{
-		free(ret);
-		return ;
-	}
-	while (text[i])
-	{
+	while (text[++i] != '\n')
 		ret[i] = text[i];
-		i++;
-	}
-	ret[i] = text[i];
-	while (text[i])
-		text[j++] = text[i++];
+	if (text[i] == '\n')
+		ret[i] = text[i];
+	while (text[++i])
+		text[j++] = text[i];
 	text[j] = '\0';
+	return (ret);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*text;
+	static char	*text = NULL;
 	char		*ret;
 
+	ret = NULL;
 	text = get_text(text, fd);
-	copy_claer_text(text, ret);
+	ret = copy_clear_text(text, ret);
 	return (ret);
 }
 

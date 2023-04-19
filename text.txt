@@ -1,5 +1,3 @@
-hallo stephan wie geht es dir \n
-name
-ist
-fritz
-\n
+Zeile 1
+Zeile 2
+Zeile 3
