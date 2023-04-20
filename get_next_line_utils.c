@@ -6,7 +6,7 @@
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:57:12 by fgabler           #+#    #+#             */
-/*   Updated: 2023/04/19 14:47:31 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/04/20 18:41:49 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,6 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-// char	*ft_strdup(const char *str1)
-// {
-// 	char			*tmp;
-// 	unsigned int	i;
-
-// 	i = 0;
-// 	tmp = (char *) malloc((ft_strlen(str1) + 1));
-// 	if (!tmp)
-// 		return (0);
-// 	while (str1[i])
-// 	{
-// 		tmp[i] = str1[i];
-// 		i++;
-// 	}
-// 	return (tmp);
-// }
-
 char	*ft_strjoin(char *s1, char *s2)
 {
 	unsigned int	i;
@@ -66,7 +49,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	i = 0;
 	j = 0;
 	new = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (new == NULL)
+	if (new == NULL || !s2)
 		return (NULL);
 	while (s1 && s1[i])
 	{
