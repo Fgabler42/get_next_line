@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/15 15:15:02 by fgabler           #+#    #+#             */
-/*   Updated: 2023/04/19 13:09:14 by fgabler          ###   ########.fr       */
+/*   Created: 2023/04/18 16:37:52 by fgabler           #+#    #+#             */
+/*   Updated: 2023/04/20 16:18:50 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,51 +16,67 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-static void	cleanstr(char *str)
+static char	*get_text(char *text, int fd)
 {
-	int	i;
+	int		protect;
+	char	buffer[BUFFER_SIZE + 1];
 
-	i = 0;
-	if (!str)
-		return ;
-	while (str[i] != '\n')
-		i++;
-	if (str[i] == '\n')
+	protect = 1;
+	buffer[BUFFER_SIZE] = '\0';
+	while (isitn(buffer, '\n') && protect > 0)
 	{
-		while (str[i])
-			str[i++] = '\0';
+		protect = read(fd, buffer, BUFFER_SIZE);
+		if (protect == -1)
+			return (NULL);
+		text = ft_strjoin(text, buffer);
 	}
+	return (text);
+}
+
+static char	*copy_clear_text(char *text, char *ret)
+{
+	int		i;
+	int		j;
+	size_t	count;
+
+	i = -1;
+	j = 0;
+	count = ft_strlen(text);
+	ret = malloc(sizeof(char) * (count + 1));
+	if (ret == NULL)
+		return (NULL);
+	ret[count] = '\0';
+	while (text[++i] != '\n')
+		ret[i] = text[i];
+	if (text[i] == '\n')
+		ret[i] = text[i];
+	while (text[++i])
+		text[j++] = text[i];
+	text[j] = '\0';
+	return (ret);
 }
 
 char	*get_next_line(int fd)
 {
-	char		buffer[BUFFER_SIZE + 1];
-	char		*tmp;
-	int			count;
+	static char	*text = NULL;
+	char		*ret;
 
-	buffer[BUFFER_SIZE] = '\0';
-	tmp = (char *)malloc(1);
-	if (!tmp)
-		free(tmp);
-	while (isitn(tmp, '\n'))
-	{
-		count = read(fd, buffer, BUFFER_SIZE);
-		if (count == -1)
-			free(buffer);
-		tmp = ft_strjoin(tmp, buffer);
-	}
-	cleanstr(tmp);
-	return (tmp);
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	ret = NULL;
+	text = get_text(text, fd);
+	ret = copy_clear_text(text, ret);
+	return (ret);
 }
 
-int	main(void)
-{
-	int		fd;
-	char	*str;
+// int	main(void)
+// {
+// 	int		fd;
+// 	char	*str;
 
-	fd = open("text.txt", O_RDONLY);
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	close(fd);
-	return (0);
-}
+// 	fd = open("text.txt", O_RDONLY);
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	close(fd);
+// 	return (0);
+// }
