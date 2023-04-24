@@ -6,7 +6,7 @@
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 16:37:52 by fgabler           #+#    #+#             */
-/*   Updated: 2023/04/20 19:44:38 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/04/24 18:24:28 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,22 @@ static char	*get_text(char *text, int fd)
 	char	buffer[BUFFER_SIZE + 1];
 
 	protect = 1;
-	buffer[BUFFER_SIZE] = '\0';
+	ft_bzero(buffer, BUFFER_SIZE);
 	while (isitn(buffer, '\n'))
 	{
 		protect = read(fd, buffer, BUFFER_SIZE);
+		if (protect == -1)
+		{
+			if (text)
+			{
+				free(text);
+				text = NULL;
+			}
+			return (NULL);
+		}
 		if (protect == 0)
 			return (text);
-		if (protect == -1)
-			return (NULL);
+		// buffer[protect] = '\0';
 		text = ft_strjoin(text, buffer);
 	}
 	return (text);
@@ -46,7 +54,7 @@ static char	*copy_clear_text(char *text, char *ret)
 	count = ft_strlen(text);
 	ret = malloc(sizeof(char) * (count + 1));
 	if (ret == NULL)
-		return (NULL);
+		return (free(text), NULL);
 	ret[count] = '\0';
 	while (text[++i] != '\n' && text != NULL && text[i])
 		ret[i] = text[i];
@@ -70,17 +78,20 @@ char	*get_next_line(int fd)
 	if (text == NULL)
 		return (NULL);
 	ret = copy_clear_text(text, ret);
+	if (ret == NULL)
+		return (NULL);
 	return (ret);
 }
 
-// int	main(void)
-// {
-// 	int		fd;
-// 	char	*str;
+int	main(void)
+{
+	int		fd;
+	char	*str;
 
-// 	fd = open("text.txt", O_RDONLY);
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	close(fd);
-// 	return (0);
-// }
+	fd = open("text.txt", O_RDONLY);
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	// system("leaks a.out");
+	close(fd);
+	return (0);
+}

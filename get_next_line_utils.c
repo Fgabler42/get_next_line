@@ -6,7 +6,7 @@
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:57:12 by fgabler           #+#    #+#             */
-/*   Updated: 2023/04/20 18:41:49 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/04/24 18:19:30 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,14 @@ char	*ft_strjoin(char *s1, char *s2)
 		new[i++] = s2[j++];
 	new[i] = '\0';
 	return (free (s1), new);
+}
+
+
+void	ft_bzero(void *s, size_t n)
+{
+	char	*f;
+
+	f = (char *)s;
+	while (n--)
+		*f++ = '\0';
 }
