@@ -6,7 +6,7 @@
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:57:12 by fgabler           #+#    #+#             */
-/*   Updated: 2023/04/25 14:09:46 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/04/25 20:40:29 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	new = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	new = (char *)malloc (sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (new == NULL || !s2)
-		return (NULL);
+		return (free(s1), free(new), NULL);
 	while (s1 && s1[i])
 	{
 		new[i] = s1[i];
@@ -63,7 +63,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	new[i] = '\0';
 	return (free (s1), new);
 }
-
 
 void	ft_bzero(void *s, size_t n)
 {

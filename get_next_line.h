@@ -6,7 +6,7 @@
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 12:09:12 by fgabler           #+#    #+#             */
-/*   Updated: 2023/04/24 17:10:42 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/04/25 14:10:05 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 
-int		isitn(char *str, int c);
+int		isit_n(char *str);
 size_t	ft_strlen(const char *str);
 char	*ft_strdup(const char *str1);
 char	*ft_strjoin(char *s1, char *s2);
