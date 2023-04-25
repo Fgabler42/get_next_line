@@ -6,17 +6,19 @@
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:57:12 by fgabler           #+#    #+#             */
-/*   Updated: 2023/04/24 18:19:30 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/04/25 14:09:46 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	isitn(char *str, int c)
+int	isit_n(char *str)
 {
 	int	i;
+	int	c;
 
 	i = 0;
+	c = '\n';
 	while (str[i])
 	{
 		if (str[i] == (char) c)

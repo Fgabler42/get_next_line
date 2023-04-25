@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line01.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 16:37:52 by fgabler           #+#    #+#             */
-/*   Updated: 2023/04/25 14:19:43 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/04/25 16:19:42 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,16 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-static void	get_text(char *text, int fd)
+static void	free_it(char *ptr)
+{
+	if (ptr)
+	{
+		free(ptr);
+		ptr = NULL;
+	}
+}
+
+static void	get_text(char **text, int fd)
 {
 	int		protect;
 	char	buffer[BUFFER_SIZE + 1];
@@ -28,23 +37,17 @@ static void	get_text(char *text, int fd)
 	{
 		protect = read(fd, buffer, BUFFER_SIZE);
 		if (protect == -1)
-		{
-			if (tmp)
-			{
-				free(tmp);
-				tmp = NULL;
-			}
-			return ;
-		}
+			return (free_it(tmp));
 		if (protect == 0)
 		{
-			text = tmp;
-			free(tmp);
-			return ;
+			*text = tmp;
+			return (free_it(tmp));
 		}
 		buffer[protect] = '\0';
 		tmp = ft_strjoin(tmp, buffer);
 	}
+	*text = (char *) malloc((sizeof (char)) * ((ft_strlen(tmp)) + 1));
+	*text[protect] = '\0';
 }
 
 static char	*copy_clear_text(char *text, char *ret)
@@ -78,7 +81,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	ret = NULL;
-	get_text(text, fd);
+	get_text(*text, fd);
 	if (text == NULL)
 		return (NULL);
 	ret = copy_clear_text(text, ret);
@@ -87,15 +90,15 @@ char	*get_next_line(int fd)
 	return (ret);
 }
 
-// int	main(void)
-// {
-// 	int		fd;
-// 	char	*str;
+int	main(void)
+{
+	int		fd;
+	char	*str;
 
-// 	fd = open("text.txt", O_RDONLY);
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	// system("leaks a.out");
-// 	close(fd);
-// 	return (0);
-// }
+	fd = open("text.txt", O_RDONLY);
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	// system("leaks a.out");
+	close(fd);
+	return (0);
+}
