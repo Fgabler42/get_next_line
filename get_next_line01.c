@@ -6,7 +6,7 @@
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 16:37:52 by fgabler           #+#    #+#             */
-/*   Updated: 2023/04/26 21:57:49 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/04/27 19:32:20 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,22 @@ static void	get_text(char **text, int fd)
 	int		protect;
 	char	buffer[BUFFER_SIZE + 1];
 
-	protect = read(fd, buffer, BUFFER_SIZE);
+	protect = 1;
 	while (protect)
 	{
+		protect = read(fd, buffer, BUFFER_SIZE);
 		if (protect == 0)
-		{
-			*text = ft_strjoin(*text, buffer);
 			return ;
-		}
-		if (protect == -1)
+		if (protect > 0)
+			buffer[protect] = '\0';
+		else if (protect == -1)
 			return (free_it(*text));
-		buffer[protect] = '\0';
-		if (!isit_n(buffer))
+		if (!isit_init(buffer, '\n'))
 		{
 			*text = ft_strjoin(*text, buffer);
 			break ;
 		}
 		*text = ft_strjoin(*text, buffer);
-		protect = read(fd, buffer, BUFFER_SIZE);
 	}
 }
 
@@ -64,7 +62,6 @@ static char	*copy_clear_text(char *text, char *ret)
 	if (ret == NULL)
 		return (free(text), free_it(ret), NULL);
 	ft_bzero(ret, count + 1);
-	ret[count] = '\0';
 	while (text[++i] != '\n' && text != NULL && text[i])
 		ret[i] = text[i];
 	if (text[i] == '\n')
@@ -82,11 +79,12 @@ char	*get_next_line(int fd)
 
 	ret = NULL;
 	get_text(&text, fd);
-	if (text == NULL)
-		return (NULL);
+	printf("%p\n", text);
+	if (text == NULL || isit_init(text, 0))
+		return (free_it(text), NULL);
 	ret = copy_clear_text(text, ret);
 	if (ret == NULL)
-		return (NULL);
+		return (free_it(ret), free_it(text), NULL);
 	return (ret);
 }
 
@@ -94,8 +92,11 @@ char	*get_next_line(int fd)
 // {
 // 	int		fd;
 // 	char	*str;
+// 	char	a[10];
 
 // 	fd = open("text.txt", O_RDWR);
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
 // 	printf("%s", get_next_line(fd));
 // 	// system("leaks a.out");
 // 	close(fd);
