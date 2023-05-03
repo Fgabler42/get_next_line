@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fritzgabler <fritzgabler@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 18:26:06 by fritzgabler       #+#    #+#             */
-/*   Updated: 2023/05/02 17:46:35 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/05/02 22:58:24 by fritzgabler      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	ft_bzero(void *s, size_t n)
+{
+	char	*f;
+
+	f = (char *)s;
+	while (n--)
+	{
+		*f++ = '\0';
+	}
+}
 
 size_t	ft_strlen(const char *str)
 {
@@ -79,5 +90,8 @@ char	*ft_strjoin_mod(char const *s1, char const *s2)
 	}
 	while (s2[j])
 		new[i++] = s2[j++];
-	return (free((void *)s1), s1 = NULL, new);
+	if (s1)
+		return (free((void *)s1), s1 = NULL, new);
+	else
+		return (new);
 }

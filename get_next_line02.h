@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fritzgabler <fritzgabler@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 17:49:30 by fritzgabler       #+#    #+#             */
-/*   Updated: 2023/05/02 17:07:34 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/05/02 23:07:43 by fritzgabler      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-#	ifndef BUFFER_SIZE
-#	define BUFFER_SIZE 42
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
 # endif
 
 # include <unistd.h>

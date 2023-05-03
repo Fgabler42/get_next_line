@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fritzgabler <fritzgabler@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 17:46:08 by fritzgabler       #+#    #+#             */
-/*   Updated: 2023/05/02 17:53:33 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/05/02 23:18:30 by fritzgabler      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,20 @@ static char	*get_text_from_file(int fd, char *buffer)
 	int		bytread;
 	char	*buff;
 
-	bytread = 0;
-	buff = ft_calloc_mod(BUFFER_SIZE, sizeof(char));
+	buff = ft_calloc_mod(BUFFER_SIZE + 1, sizeof(char));
 	if (buff == NULL)
 		return (free(buffer), NULL);
-	bytread = read(fd, buff, BUFFER_SIZE);
-	if (bytread == -1)
-		return (free(buff), free(buffer), NULL);
+	bytread = 1;
 	while (bytread > 0)
 	{
-		buffer = ft_strjoin_mod(buffer, buff);
-		if (buffer && ft_strchr(buffer, '\n'))
-			break ;
-		if (ft_strchr (buff, '\n'))
-			return (buffer);
+		ft_bzero(buff, BUFFER_SIZE + 1);
 		bytread = read(fd, buff, BUFFER_SIZE);
 		if (bytread == -1)
 			return (free(buff), buff = NULL, free(buffer), NULL);
+		if (bytread != 0)
+			buffer = ft_strjoin_mod(buffer, buff);
+		if (buffer && ft_strchr(buffer, '\n'))
+			break ;
 	}
 	return (free(buff), buff = NULL, buffer);
 }
@@ -50,14 +47,13 @@ static char	*copy_line(char *buffer)
 		return (NULL);
 	while (buffer[len] != '\n' && buffer[len])
 		len++;
-	if (buffer[++len] == '\n' && buffer[len])
+	if (ft_strchr(buffer, '\n'))
 		len++;
-	tmp = (char *) ft_calloc_mod(len, sizeof(char));
-	if (!tmp)
+	tmp = (char *) ft_calloc_mod(len + 1, sizeof(char));
+	if (tmp == NULL)
 		return (NULL);
-	while (++i < len)
+	while (buffer[++i])
 		tmp[i] = buffer[i];
-	tmp[i] = '\0';
 	return (tmp);
 }
 
