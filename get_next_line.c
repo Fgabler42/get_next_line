@@ -6,7 +6,7 @@
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 17:46:08 by fritzgabler       #+#    #+#             */
-/*   Updated: 2023/05/05 13:58:25 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/05/05 16:33:39 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ static char	*get_text_from_file(int fd, char *buffer)
 	int		bytread;
 	char	*buff;
 
-	bytread = 1;
 	buff = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (buff == NULL)
 		return (NULL);
+	bytread = 1;
 	while (bytread > 0)
 	{
 		ft_bzero(buff, BUFFER_SIZE + 1);
@@ -75,11 +75,13 @@ static char	*update_buffer(char *buffer, char *ret)
 		back++;
 	if (buffer[back] == '\0')
 		return (free_it(buffer), NULL);
+	if (buffer[back] == '\n' && buffer[back + 1] == '\0')
+		return (free_it(buffer), NULL);
 	new_buffer = (char *) ft_calloc((ft_strlen(buffer) - back), sizeof(char));
-	if (new_buffer == NULL)
-		return (free_it(ret), free_it(buffer), NULL);
 	if (buffer[back] == '\n' && buffer[back])
 		back++;
+	if (new_buffer == NULL)
+		return (free_it(ret), free_it(buffer), NULL);
 	while (buffer[back])
 		new_buffer[first++] = buffer[back++];
 	return (free_it(buffer), new_buffer);
@@ -107,14 +109,17 @@ char	*get_next_line(int fd)
 // 	char	*str;
 
 // 	fd = open("text.txt", O_RDWR);
-// 	printf("first:	%s	", get_next_line(fd));
-// 	printf("secont:	%s	", get_next_line(fd));
-// 	printf("tree:	%s	", get_next_line(fd));
-// 	printf("four:	%s	", get_next_line(fd));
-// 	printf("five:	%s	", get_next_line(fd));
-// 	printf("six :	%s	", get_next_line(fd));
-// 	printf("seven:	%s	", get_next_line(fd));
-// 	printf("eight:	%s	", get_next_line(fd));
+// 	printf("first:%s", get_next_line(fd));
+// 	printf("secont%s", get_next_line(fd));
+// 	printf("tree:%s", get_next_line(fd));
+// 	printf("four:%s", get_next_line(fd));
+// 	printf("five:%s", get_next_line(fd));
+// 	printf("six :%s", get_next_line(fd));
+// 	printf("seven:%s", get_next_line(fd));
+// 	printf("eight:%s", get_next_line(fd));
+// 	printf("nine:%s", get_next_line(fd));
+// 	printf("ten:%s", get_next_line(fd));
+// 	printf("eleven:%s", get_next_line(fd));
 // 	// system("leaks a.out");
 // 	close(fd);
 // 	return (0);

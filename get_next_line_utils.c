@@ -6,7 +6,7 @@
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 18:26:06 by fritzgabler       #+#    #+#             */
-/*   Updated: 2023/05/05 09:53:49 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/05/05 16:31:42 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ size_t	ft_strlen(const char *str)
 	size_t	i;
 
 	i = 0;
-	if (str == NULL)
+	if (!str)
 		return (0);
-	while (str[i++])
+	while (str[i])
 		i++;
 	return (i);
 }
