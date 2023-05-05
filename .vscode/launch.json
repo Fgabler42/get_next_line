@@ -7,7 +7,7 @@
         {
             "name": "Launch",
             "type": "cppdbg",
-            "program": "/Users/fgabler/Desktop/42_exercise/Projekts/get_next_line/a.out",
+            "program": "/Users/fgabler/Desktop/42_exercise/Projekts/gnl/a.out",
             "args": [],
             "cwd": "${workspaceFolder}",
             "request": "launch",
