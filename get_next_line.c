@@ -6,7 +6,7 @@
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 17:46:08 by fritzgabler       #+#    #+#             */
-/*   Updated: 2023/05/05 10:46:03 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/05/05 13:58:25 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,14 @@ char	*get_next_line(int fd)
 // 	char	*str;
 
 // 	fd = open("text.txt", O_RDWR);
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
+// 	printf("first:	%s	", get_next_line(fd));
+// 	printf("secont:	%s	", get_next_line(fd));
+// 	printf("tree:	%s	", get_next_line(fd));
+// 	printf("four:	%s	", get_next_line(fd));
+// 	printf("five:	%s	", get_next_line(fd));
+// 	printf("six :	%s	", get_next_line(fd));
+// 	printf("seven:	%s	", get_next_line(fd));
+// 	printf("eight:	%s	", get_next_line(fd));
 // 	// system("leaks a.out");
 // 	close(fd);
 // 	return (0);
