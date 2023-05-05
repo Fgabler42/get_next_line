@@ -5,87 +5,99 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/18 16:37:52 by fgabler           #+#    #+#             */
-/*   Updated: 2023/04/25 20:43:05 by fgabler          ###   ########.fr       */
+/*   Created: 2023/04/28 17:46:08 by fritzgabler       #+#    #+#             */
+/*   Updated: 2023/05/05 10:46:03 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
 #include "get_next_line.h"
-#include <fcntl.h>
-#include <stdlib.h>
 
-static void	free_it(char *ptr)
+static void	free_it(char *str)
 {
-	if (ptr)
-	{
-		free(ptr);
-		ptr = NULL;
-	}
+	if (str != NULL)
+		free((void *)str);
 }
 
-static void	get_text(char **text, int fd)
+static char	*get_text_from_file(int fd, char *buffer)
 {
-	int		protect;
-	char	buffer[BUFFER_SIZE + 1];
+	int		bytread;
+	char	*buff;
+
+	bytread = 1;
+	buff = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (buff == NULL)
+		return (NULL);
+	while (bytread > 0)
+	{
+		ft_bzero(buff, BUFFER_SIZE + 1);
+		bytread = read(fd, buff, BUFFER_SIZE);
+		if (bytread == -1)
+			return (free_it(buff), free_it(buffer), NULL);
+		if (bytread != 0)
+			buffer = ft_strjoin_mod(buffer, buff);
+		if (buffer && ft_strchr(buffer, '\n'))
+			break ;
+	}
+	return (free_it(buff), buffer);
+}
+
+static char	*copy_line(char *buffer)
+{
 	char	*tmp;
+	int		len;
+	int		i;
 
-	protect = 0;
-	tmp = NULL;
-	while (isit_n(buffer))
-	{
-		protect = read(fd, buffer, BUFFER_SIZE);
-		if (protect == -1)
-			return (free_it(tmp));
-		if (protect == 0)
-		{
-			*text = ft_strjoin(*text, tmp);
-			return (free_it(tmp));
-		}
-		buffer[protect] = '\0';
-		tmp = ft_strjoin(tmp, buffer);
-	}
-	*text = ft_strjoin(*text, tmp);
-	free_it(tmp);
+	len = 0;
+	i = -1;
+	if (!buffer || !buffer[0])
+		return (free_it(buffer), NULL);
+	while (buffer[len] != '\n' && buffer[len])
+		len++;
+	if (buffer[len] == '\n')
+		len++;
+	tmp = (char *) ft_calloc(len + 1, sizeof(char));
+	if (tmp == NULL)
+		return (free_it(buffer), NULL);
+	while (++i < len)
+		tmp[i] = buffer[i];
+	return (tmp);
 }
 
-static char	*copy_clear_text(char *text, char *ret)
+static char	*update_buffer(char *buffer, char *ret)
 {
-	int		i;
-	int		j;
-	size_t	count;
+	int		first;
+	int		back;
+	char	*new_buffer;
 
-	i = -1;
-	j = 0;
-	count = ft_strlen(text);
-	ret = (char *) malloc(sizeof(char) * (count + 1));
-	if (ret == NULL)
-		return (free(text), free_it(ret), NULL);
-	ft_bzero(ret, count + 1);
-	ret[count] = '\0';
-	while (text[++i] != '\n' && text != NULL && text[i])
-		ret[i] = text[i];
-	if (text[i] == '\n')
-		ret[i] = text[i];
-	while (text[++i])
-		text[j++] = text[i];
-	text[j] = '\0';
-	return (ret);
+	first = 0;
+	back = 0;
+	while (buffer[back] != '\n' && buffer[back])
+		back++;
+	if (buffer[back] == '\0')
+		return (free_it(buffer), NULL);
+	new_buffer = (char *) ft_calloc((ft_strlen(buffer) - back), sizeof(char));
+	if (new_buffer == NULL)
+		return (free_it(ret), free_it(buffer), NULL);
+	if (buffer[back] == '\n' && buffer[back])
+		back++;
+	while (buffer[back])
+		new_buffer[first++] = buffer[back++];
+	return (free_it(buffer), new_buffer);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*text = NULL;
+	static char	*buffer;
 	char		*ret;
 
 	ret = NULL;
-	get_text(&text, fd);
-	if (text == NULL)
+	buffer = get_text_from_file(fd, buffer);
+	if (buffer == NULL)
 		return (NULL);
-	ret = copy_clear_text(text, ret);
+	ret = copy_line(buffer);
 	if (ret == NULL)
 		return (NULL);
+	buffer = update_buffer(buffer, ret);
 	return (ret);
 }
 
