@@ -6,17 +6,24 @@
 /*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 17:46:08 by fritzgabler       #+#    #+#             */
-/*   Updated: 2023/05/05 16:33:39 by fgabler          ###   ########.fr       */
+/*   Updated: 2023/05/06 11:45:35 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+// free_it: is a function that frees memory allocated
+// to a string, but only if the string is not NULL.
 
 static void	free_it(char *str)
 {
 	if (str != NULL)
 		free((void *)str);
 }
+
+// get_text_from_file : is a function that reads text from
+// a file descriptor and returns
+// it as a character string.
 
 static char	*get_text_from_file(int fd, char *buffer)
 {
@@ -41,6 +48,10 @@ static char	*get_text_from_file(int fd, char *buffer)
 	return (free_it(buff), buffer);
 }
 
+// This function copies a line of text from a buffer and
+// returns it as a new string. The function takes in a
+// buffer as its argument.
+
 static char	*copy_line(char *buffer)
 {
 	char	*tmp;
@@ -62,6 +73,14 @@ static char	*copy_line(char *buffer)
 		tmp[i] = buffer[i];
 	return (tmp);
 }
+
+// update_buffer: This is a helper function for read
+// from a file descriptor, which updates the
+// buffer used for reading. The function takes
+// two arguments: buffer, which represents the
+// buffer used for reading, and ret, which
+// represents a pointer to a string that will be
+// returned from the main function.
 
 static char	*update_buffer(char *buffer, char *ret)
 {
@@ -87,6 +106,10 @@ static char	*update_buffer(char *buffer, char *ret)
 	return (free_it(buffer), new_buffer);
 }
 
+// get_next_line: is a function that reads and returns the
+// next line rom a file descriptor. The function takes
+// in a file descriptor as its argument.
+
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
@@ -102,6 +125,10 @@ char	*get_next_line(int fd)
 	buffer = update_buffer(buffer, ret);
 	return (ret);
 }
+
+// int main: is a main function that tests the get_next_line()
+// function by reading lines from a file descriptor
+// and printing them to the console.
 
 // int	main(void)
 // {
