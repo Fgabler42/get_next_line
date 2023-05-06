@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fritzgabler <fritzgabler@student.42.fr>    +#+  +:+       +#+        */
+/*   By: fgabler <fgabler@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 17:46:08 by fritzgabler       #+#    #+#             */
-/*   Updated: 2023/05/05 22:15:48 by fritzgabler      ###   ########.fr       */
+/*   Updated: 2023/05/06 10:42:24 by fgabler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ char	*get_next_line(int fd)
 	char		*ret;
 
 	ret = NULL;
+	if (fd < 0 || BUFFER_SIZE < 1 || fd > OPEN_MAX)
+		return (NULL);
 	buffer[fd] = get_text_from_file(fd, buffer[fd]);
 	if (buffer[fd] == NULL)
 		return (NULL);
